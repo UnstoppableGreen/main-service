@@ -14,6 +14,7 @@ public class Clients {
     private Long clientID;
     private String name;
     private String contacts;
+    private String address;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
@@ -37,5 +38,11 @@ public class Clients {
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
