@@ -2,6 +2,7 @@ package ru.rsatu.service;
 
 import ru.rsatu.pojo.Clients;
 import ru.rsatu.pojo.Orders;
+import ru.rsatu.pojo.OrdersDetails;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -41,6 +42,15 @@ public class OrderService {
         em.flush();
         return order;
     }
+    
+    //вставка данных
+    @Transactional
+    public OrdersDetails insertDetail(OrdersDetails orderDetail) {
+        em.merge(orderDetail);
+        em.flush();
+        return orderDetail;
+    }
+    
 
     //обновление данных
     @Transactional

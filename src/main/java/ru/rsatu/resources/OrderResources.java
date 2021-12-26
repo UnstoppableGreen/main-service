@@ -4,9 +4,11 @@ import io.vertx.core.json.JsonObject;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.pojo.Clients;
 import ru.rsatu.pojo.Orders;
+import ru.rsatu.pojo.OrdersDetails;
 
 import java.sql.Date;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -40,7 +42,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderById")
-    public Response getClientById(@QueryParam("orderID") Long orderID){
+    public Response getOrderById(@QueryParam("orderID") Long orderID){
         return Response.ok(os.getOrderById(orderID)).build();
     }
 
@@ -74,4 +76,116 @@ public class OrderResources {
         os.deleteOrder(orderID);
         return Response.ok().build();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @PUT
+    @Path("addDetail")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void addDetail(@QueryParam("orderID") Long orderID, @QueryParam("itemID") Long itemID, @QueryParam("qty") Integer qty, @QueryParam("comments") String comments) {
+        Orders order = os.getOrderById(orderID);
+        if (order == null) {
+            return;
+        }
+
+        OrdersDetails OrderDetail = new OrdersDetails();
+        OrderDetail.setItemID(itemID);
+        OrderDetail.setQty(qty);
+        OrderDetail.setComments(comments);
+        
+        os.insertDetail(OrderDetail);
+        OrderDetail.persist(); //????
+        
+        order.orderDetails.add(OrderDetail);       
+        order.persist(); //????
+        
+    }
+
+ /*   @DELETE
+    @Path("book/{id}")
+    @Transactional
+    public void deleteBook(@PathParam Long id) {
+        Book book = Book.findById(id);
+        if (book != null) {
+            book.author.books.remove(book);
+            book.delete();
+        }
+    }
+
+    @PUT
+    @Path("author")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void addAuthor(@FormParam String firstName, @FormParam String lastName) {
+        Author author = new Author();
+        author.firstName = firstName;
+        author.lastName = lastName;
+        author.persist();
+    }
+
+    @POST
+    @Path("author/{id}")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void updateAuthor(@PathParam Long id, @FormParam String firstName, @FormParam String lastName) {
+        Author author = Author.findById(id);
+        if (author == null) {
+            return;
+        }
+        author.firstName = firstName;
+        author.lastName = lastName;
+        author.persist();
+    }
+
+    @DELETE
+    @Path("author/{id}")
+    @Transactional
+    public void deleteAuthor(@PathParam Long id) {
+        Author author = Author.findById(id);
+        if (author != null) {
+            author.delete();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
 }

@@ -63,6 +63,14 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
+    <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-hibernate-search-orm-elasticsearch</artifactId>
+	</dependency>   
+	<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

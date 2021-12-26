@@ -4,23 +4,27 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
-@Table(name="orders")
-public class Orders {
-    @Id
+//@Table(name="orders")
+public class Orders extends PanacheEntity {
+   /* @Id
     @SequenceGenerator(name = "orderSeq", sequenceName = "order_id_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "orderSeq")
-    private Long orderID;
+    private Long orderID;*/
     private Long clientID;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // order из файла OrdersDetails
+    public List<OrdersDetails> orderDetails;
     private Integer statusID;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date creationDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date lastUpdateOn;
-	public Long getOrderID() {
+	/*public Long getOrderID() {
 		return orderID;
-	}
+	}*/
 	public Integer getStatusID() {
 		return statusID;
 	}
