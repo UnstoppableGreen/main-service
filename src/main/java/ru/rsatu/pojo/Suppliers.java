@@ -2,13 +2,11 @@ package ru.rsatu.pojo;
 
 import javax.persistence.*;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 @Entity
-@Table(name="suppliers")
-public class Suppliers {
-    @Id
-    @SequenceGenerator(name = "suppliersSeq", sequenceName = "suppliers_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "suppliersSeq")
-    private Long id;
+public class Suppliers extends PanacheEntity {
+
     private String name;
     private String contacts;
 
