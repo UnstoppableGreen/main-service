@@ -61,7 +61,7 @@ public class ClientResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/updateClient")
     public Response updateClient(Clients cl){
-        System.out.println("clint " + cl.getName());
+        System.out.println("client " + cl.getName());
         return Response.ok(sr.updateClient(cl)).build();
     }
 

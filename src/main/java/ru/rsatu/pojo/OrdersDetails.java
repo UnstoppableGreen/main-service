@@ -4,8 +4,10 @@ import java.util.Objects;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,7 +26,7 @@ public class OrdersDetails extends PanacheEntity {
     private String comments;
     
     @ManyToOne
-    @JsonIgnore 
+    @JsonIgnore
     public Orders order;
 
   /*  @Override
@@ -53,7 +55,13 @@ public class OrdersDetails extends PanacheEntity {
 	public void setItemID(Long itemID) {
 		this.itemID = itemID;
 	}
-
+	public void setOrder(Orders order) {
+		this.order = order;
+	}
+	public Orders getOrder() {
+		return order;
+	}
+	
 	public Integer getQty() {
 		return qty;
 	}
@@ -69,4 +77,12 @@ public class OrdersDetails extends PanacheEntity {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+    @Override
+    public String toString() {
+        return "DETAIL{" +
+                "itemID='" + itemID + '\'' +
+                ", qty='" + qty + '\'' +
+                ", comments=" + comments +
+                '}';
+    }
 }

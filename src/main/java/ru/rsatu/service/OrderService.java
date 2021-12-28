@@ -38,18 +38,19 @@ public class OrderService {
     //вставка данных
     @Transactional
     public Orders insertOrder(Orders order) {
-        em.merge(order);
+    	em.merge(order);
         em.flush();
+        em.clear();
         return order;
     }
     
     //вставка данных
-    @Transactional
+   /* @Transactional
     public OrdersDetails insertDetail(OrdersDetails orderDetail) {
         em.merge(orderDetail);
         em.flush();
         return orderDetail;
-    }
+    }*/
     
 
     //обновление данных
@@ -60,6 +61,13 @@ public class OrderService {
         em.merge(order);
         em.flush();
         return order;
+    }
+    //обновление данных
+    @Transactional
+    public OrdersDetails updateDetail(OrdersDetails detail) {
+        em.merge(detail);
+        em.flush();
+        return detail;
     }
 
     //удаление данных
@@ -101,5 +109,10 @@ public class OrderService {
     public Orders getOrderById(Long orderID) {
         Orders order = em.find(Orders.class, orderID);
         return order;
+    }
+    
+    public OrdersDetails getDetailById(Long detailID) {
+        OrdersDetails detail = em.find(OrdersDetails.class, detailID);
+        return detail;
     }
 }
