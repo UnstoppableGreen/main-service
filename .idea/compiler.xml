@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="rsatu" />
+        <module name="java_course_work_back" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="java_course_work_back" options="-parameters" />
       <module name="rsatu" options="-parameters" />
     </option>
   </component>
