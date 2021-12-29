@@ -1,34 +1,49 @@
 package ru.rsatu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.List;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
-public class Items extends PanacheEntity {	
-    private String name;
-    
-    private Long defaultSupplierId;
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER) 
+public class Items extends PanacheEntity {
+	private String name;
+	private Long defaultSupplierID;
+	
+	
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    //@OnDelete(action = OnDeleteAction.CASCADE)
     public List<ItemsDetails> itemDetails;
-    
-    
+	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getDefaultSupplierId() {
-		return defaultSupplierId;
+
+	public Long getDefaultSupplierID() {
+		return defaultSupplierID;
 	}
-	public void setDefaultSupplierId(Long defaultSupplierId) {
-		this.defaultSupplierId = defaultSupplierId;
+
+	public void setDefaultSupplierID(Long defaultSupplierID) {
+		this.defaultSupplierID = defaultSupplierID;
 	}
-	
-	
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", defaultSupplierID=" + defaultSupplierID +
+                ", ITEMDETAILS=" + itemDetails +
+                '}';
+    }
+    
 }

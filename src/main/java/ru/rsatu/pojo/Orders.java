@@ -15,7 +15,7 @@ public class Orders extends PanacheEntity {
     @GeneratedValue(generator = "orderSeq")
     private Long orderID;*/
     private Long clientID;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER) // order из файла OrdersDetails
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // order из файла OrdersDetails
     public List<OrdersDetails> orderDetails;
     private Integer statusID;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
