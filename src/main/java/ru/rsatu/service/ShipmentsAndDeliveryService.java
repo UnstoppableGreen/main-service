@@ -9,20 +9,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import ru.rsatu.pojo.Items;
-import ru.rsatu.pojo.Orders;
-import ru.rsatu.pojo.OrdersDetails;
-import ru.rsatu.pojo.Requests;
-import ru.rsatu.pojo.Shipments;
+import ru.rsatu.pojo.*;
+
 @ApplicationScoped
 public class ShipmentsAndDeliveryService {
     @Inject
     EntityManager em;
-    
-     
     @Inject
     ItemService is;
-    
+
+    //-----------------------------------------------------------------------------------------------------------
+    // SHIPMENTS
+    //-----------------------------------------------------------------------------------------------------------
+
     @Transactional
     public Shipments insertShipment(Shipments shipment) {
         em.merge(shipment);
@@ -56,9 +55,11 @@ public class ShipmentsAndDeliveryService {
         Number shipmentsQTY = (Number) em.createQuery(" select count(id) from Shipments ").getResultList().get(0);
         return shipmentsQTY.intValue() ;
     }
-    
-    
-       
+
+    //-----------------------------------------------------------------------------------------------------------
+    // REQUESTS
+    //-----------------------------------------------------------------------------------------------------------
+
     @Transactional
     public Requests insertRequest(Requests request) {
     	Date dateNow = new Date();
@@ -110,6 +111,51 @@ public class ShipmentsAndDeliveryService {
         Number requestsQTY = (Number) em.createQuery(" select count(id) from Requests ").getResultList().get(0);
         return requestsQTY.intValue() ;
     }
-	
-	
+
+    //-----------------------------------------------------------------------------------------------------------
+    // CARRIERS
+    //-----------------------------------------------------------------------------------------------------------
+
+    //вставка данных
+    @Transactional
+    public Carriers insertCarriers(Carriers car) {
+        em.merge(car);
+        em.flush();
+        em.clear();
+        return car;
+    }
+
+    //обновление данных
+    @Transactional
+    public Carriers updateCarriers(Carriers car) {
+        em.merge(car);
+        em.flush();
+        em.clear();
+        return car;
+    }
+
+    //удаление данных
+    @Transactional
+    public void deleteCarriers(Carriers car) {
+        Carriers c = getCarriersById(car.getCarriersID());
+        em.remove(c);
+        em.flush();
+    }
+
+    public Carriers getCarriersById(Long id) {
+        Carriers car = em.find(Carriers.class, id);
+        return car;
+    }
+
+    public List<Carriers> getCarriers(int page) {
+        Query query = em.createQuery(" select s from Carriers s ");
+        query.setFirstResult((page-1)*10);
+        query.setMaxResults(10);
+        List<Carriers> listCarriers = query.getResultList();
+        return listCarriers;
+    }
+    public int countCarriers() {
+        Number carQTY = (Number) em.createQuery(" select count(id) from Carriers ").getResultList().get(0);
+        return carQTY.intValue() ;
+    }
 }

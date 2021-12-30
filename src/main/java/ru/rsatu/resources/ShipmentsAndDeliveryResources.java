@@ -1,12 +1,9 @@
 package ru.rsatu.resources;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -15,9 +12,14 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import io.vertx.core.json.JsonObject;
 import ru.rsatu.pojo.Requests;
 import ru.rsatu.pojo.Shipments;
+import ru.rsatu.pojo.Carriers;
+import ru.rsatu.pojo.Suppliers;
 import ru.rsatu.service.ItemService;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.service.ShipmentsAndDeliveryService;
+import ru.rsatu.service.SuppliersService;
+
+import java.util.List;
 
 @Path("/ShipmentsAndDeliveryResources")
 public class ShipmentsAndDeliveryResources {
@@ -118,6 +120,53 @@ public class ShipmentsAndDeliveryResources {
     	
     	return Response.ok(json).build();
     }
-    
+    //-----------------------------------------------------------------------------------------------------------
+    // CARRIERS
+    //-----------------------------------------------------------------------------------------------------------
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getCarriers")
+    public Response getCarriers(@QueryParam("page") int page){
+        JsonObject json = new JsonObject();
+        json.put("page", page);
+        json.put("per_page", 10);
+        int c = sads.countCarriers();
+        json.put("total", c);
+        json.put("total_pages", (int)Math.ceil(c / 10.0));
+        json.put("data", sads.getCarriers(page));
+        return Response.ok(json).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getCarriersById")
+    public Response getCarriersById(@QueryParam("id") Long id){
+        return Response.ok(sads.getCarriersById(id)).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/insertCarriers")
+    public Response insertSupplier(Carriers car){
+        return Response.ok(sads.insertCarriers(car)).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/updateCarriers")
+    public Response updateSupplier(Carriers carriers){
+        return Response.ok(sads.updateCarriers(carriers)).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/deleteCarriers")
+    public Response deleteCarriers(@QueryParam("id") Long id){
+        sads.deleteCarriers(sads.getCarriersById(id));
+        return Response.ok().build();
+    }
     
 }
