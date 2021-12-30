@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,6 +18,11 @@ public class Items extends PanacheEntity {
 	private String name;
 	private Long defaultSupplierID;
 	
+	@ManyToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+	//@OnDelete(action = OnDeleteAction.NO_ACTION)
+	//@JsonIgnore
+	public Suppliers suppliers;
 	
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     //@OnDelete(action = OnDeleteAction.CASCADE)
@@ -42,6 +49,7 @@ public class Items extends PanacheEntity {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", defaultSupplierID=" + defaultSupplierID +
+                ", suppliers=" + suppliers +
                 ", ITEMDETAILS=" + itemDetails +
                 '}';
     }

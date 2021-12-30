@@ -1,5 +1,6 @@
 package ru.rsatu.resources;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import ru.rsatu.pojo.Items;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Path("/items")
 public class ItemResources {
@@ -65,9 +67,17 @@ public class ItemResources {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Items> getAtomics(@QueryParam("itemID") Long id ) {   	
+    public Map<Items, Integer> getAtomics(@QueryParam("itemID") Long id ) {
        // System.out.println("Попытка добавить деталь: \n"+item.toString()); 
         return os.getAtomicsFromItem(os.getItemById(id));
     	
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getStructure")
+    public Response getStructure(@QueryParam("itemID") Long id){
+        return Response.ok(os.getStructure(os.getItemById(id))).build();
     }
    
 
