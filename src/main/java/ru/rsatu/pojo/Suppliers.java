@@ -2,15 +2,27 @@ package ru.rsatu.pojo;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
+
 @Entity
-@Table(name="suppliers")
-public class Suppliers {
-    @Id
-    @SequenceGenerator(name = "suppliersSeq", sequenceName = "suppliers_id_seq", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(generator = "suppliersSeq")
-    private Long id;
+public class Suppliers extends PanacheEntity {
+
     private String name;
     private String contacts;
+    private String address;
+
+    @OneToMany(mappedBy = "suppliers", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // order из файла OrdersDetails
+    //@NotFound(action = NotFoundAction.IGNORE)
+    //@OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JsonIgnore
+    public List<Items> items;
 
     public Long getId() {
         return id;
@@ -30,5 +42,13 @@ public class Suppliers {
 
     public void setContacts(String contacts) {
         this.contacts = contacts;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

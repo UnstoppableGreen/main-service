@@ -1,33 +1,61 @@
 package ru.rsatu.pojo;
 
-import javax.persistence.*;
+import java.util.Objects;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-
-import java.io.Serializable;
-import java.util.List;
-
 @Entity
-@Table(name = "itemsDetails")
-public class ItemsDetails implements Serializable {
-	@Id
-	@SequenceGenerator(name = "itemdetSeq", sequenceName = "itemdet_id_seq", allocationSize = 1, initialValue = 1)
-	@GeneratedValue(generator = "itemdetSeq")
-	private Long itemdetID;
+public class ItemsDetails extends PanacheEntity {
 
-	@ManyToOne(targetEntity = Items.class)
-	@JoinColumn(name = "parent")
-	public Items parent;
-
-	@ManyToOne(targetEntity = Items.class)
-	@JoinColumn(name = "children")
-	//public Items children;
-	public List<Items> children;
-
+		
+    private Long itemID;
     private Integer qty;
+    
+    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
+    public Items item;
 
+  /*  @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof OrdersDetails)) {
+            return false;
+        }
+
+        OrdersDetails other = (OrdersDetails) o;
+
+        return Objects.equals(id, other.id);
+    }*/
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+	public Long getItemID() {
+		return itemID;
+	}
+
+	public void setItemID(Long itemID) {
+		this.itemID = itemID;
+	}
+
+	
 	public Integer getQty() {
 		return qty;
 	}
@@ -36,13 +64,11 @@ public class ItemsDetails implements Serializable {
 		this.qty = qty;
 	}
 
-	@Override
-	public String toString() {
-		return "DETAIL{" +
-				"parentID='" + parent + '\'' +
-				"childItem='" + children + '\'' +
-				", qty='" + qty + '\'' +
-				'}';
-	}
-	
+    @Override
+    public String toString() {
+        return "ITEMDETAIL{" +
+                "itemID='" + itemID + '\'' +
+                ", qty='" + qty + '\'' +
+                '}';
+    }
 }

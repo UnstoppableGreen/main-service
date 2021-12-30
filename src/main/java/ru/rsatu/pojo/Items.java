@@ -1,60 +1,47 @@
 package ru.rsatu.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
-@Table(name = "items")
-public class Items implements Serializable {
-
-	@Id
-	@SequenceGenerator(name = "itemSeq", sequenceName = "item_id_seq", allocationSize = 1, initialValue = 1)
-	@GeneratedValue(generator = "itemSeq")
-	private Long itemID;
+public class Items extends PanacheEntity {
 	private String name;
-    private Long defaultSupplierId;
-
-	/*@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
-    public List<ItemsDetails> itemDetails;*/
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "parent")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
-	private List<ItemsDetails> parent = new ArrayList<>();
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "children")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
-	public List<ItemsDetails> children;
-    
+	@ManyToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+	//@OnDelete(action = OnDeleteAction.NO_ACTION)
+	//@JsonIgnore
+	public Suppliers suppliers;
+	
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    public List<ItemsDetails> itemDetails;
+	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getDefaultSupplierId() {
-		return defaultSupplierId;
-	}
-	public void setDefaultSupplierId(Long defaultSupplierId) {
-		this.defaultSupplierId = defaultSupplierId;
-	}
 
-	@Override
-	public String toString() {
-		return "Item{" +
-				", name='" + name + '\'' +
-				", defaultSupplierId=" + defaultSupplierId +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", suppliers=" + suppliers +
+                ", ITEMDETAILS=" + itemDetails +
+                '}';
+    }
+    
 }

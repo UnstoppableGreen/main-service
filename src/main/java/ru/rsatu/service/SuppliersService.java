@@ -1,10 +1,12 @@
 package ru.rsatu.service;
 
+import ru.rsatu.pojo.Orders;
 import ru.rsatu.pojo.Suppliers;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class SuppliersService {
     //вставка данных
     @Transactional
     public Suppliers insertSupplier(Suppliers s) {
-        em.persist(s);
+        em.merge(s);
         em.flush();
+        em.clear();
         return s;
     }
 
@@ -34,6 +37,7 @@ public class SuppliersService {
     public Suppliers updateSupplier(Suppliers s) {
         em.merge(s);
         em.flush();
+        em.clear();
         return s;
     }
 
@@ -50,7 +54,15 @@ public class SuppliersService {
         return s;
     }
 
-    public List<Suppliers> getSuppliers() {
-        return em.createQuery(" select s from Suppliers s ", Suppliers.class).getResultList();
+    public List<Suppliers> getSuppliers(int page) {
+        Query query = em.createQuery(" select s from Suppliers s ");
+        query.setFirstResult((page-1)*10);
+        query.setMaxResults(10);
+        List<Suppliers> listSuppliers = query.getResultList();
+        return listSuppliers;
+    }
+    public int countSuppliers() {
+        Number ordersQTY = (Number) em.createQuery(" select count(id) from Suppliers ").getResultList().get(0);
+        return ordersQTY.intValue() ;
     }
 }
