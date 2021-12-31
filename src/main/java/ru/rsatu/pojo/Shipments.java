@@ -12,7 +12,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 public class Shipments extends PanacheEntity {
 	
 	private Long orderID;
-	private Integer statusID;
+	private Long statusID;
 	private Long carrierID;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date shipmentDate;
@@ -26,10 +26,10 @@ public class Shipments extends PanacheEntity {
 	public void setOrderID(Long orderID) {
 		this.orderID = orderID;
 	}
-	public Integer getStatusID() {
+	public Long getStatusID() {
 		return statusID;
 	}
-	public void setStatusID(Integer statusID) {
+	public void setStatusID(Long statusID) {
 		this.statusID = statusID;
 	}
 	public Long getCarrierID() {
