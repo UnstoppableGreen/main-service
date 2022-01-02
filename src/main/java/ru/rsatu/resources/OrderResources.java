@@ -44,7 +44,7 @@ public class OrderResources {
     public Response getOrders(@QueryParam("page") int page){
         JsonObject json = new JsonObject();
         json.put("page", page);
-        json.put("per_page", 10);
+        json.put("per_page", 4);
         int c = os.countOrders();
         json.put("total", c);
         json.put("total_pages", (int)Math.ceil(c / 4.0));

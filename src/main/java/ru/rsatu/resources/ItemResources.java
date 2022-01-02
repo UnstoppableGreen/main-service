@@ -38,6 +38,13 @@ public class ItemResources {
         return Response.ok(json).build();
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getItems")
+    public Response getItems(){
+        return Response.ok(os.getItems()).build();
+    }
+    
     @PUT
     @Path("/newItem")
     @Transactional

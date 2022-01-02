@@ -30,6 +30,11 @@ public class ItemService {
         List<Items> listItems = query.getResultList();
         return listItems;
     }
+    public List<Items> getItems() {
+        Query query = em.createQuery(" select c from Items c ");
+        List<Items> listItems = query.getResultList();
+        return listItems;
+    }
 
     public int countItems() {
         Number ordersQTY = (Number) em.createQuery(" select count(Items) from Items ").getResultList().get(0);
