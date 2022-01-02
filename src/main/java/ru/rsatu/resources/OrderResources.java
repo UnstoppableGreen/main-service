@@ -24,7 +24,7 @@ import ru.rsatu.service.ClientService;
 import ru.rsatu.service.ItemService;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.service.StatusService;
-@Path("/Orders")
+@Path("/orders")
 public class OrderResources {
     @Inject
     OrderService os;
@@ -52,12 +52,12 @@ public class OrderResources {
         return Response.ok(json).build();
     }
 
-    @GET
+  /*  @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrders")
     public Response getOrders(){
         return Response.ok(os.getOrders()).build();
-    }
+    }*/
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -86,7 +86,7 @@ public class OrderService {
     }
 
     public int countOrders() {
-        Number ordersQTY = (Number) em.createQuery(" select count(orderID) from Orders ").getResultList().get(0);
+        Number ordersQTY = (Number) em.createQuery(" select count(id) from Orders ").getResultList().get(0);
         return ordersQTY.intValue() ;
     }
 
