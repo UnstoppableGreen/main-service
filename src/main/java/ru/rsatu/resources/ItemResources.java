@@ -40,7 +40,7 @@ public class ItemResources {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getItems")
+    @Path("/getAllItems")
     public Response getItems(){
         return Response.ok(os.getItems()).build();
     }
@@ -69,14 +69,25 @@ public class ItemResources {
         return os.getAtomicsFromItem(os.getItemById(id),1);
     	
     }
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getItemById")
+    public Response getItemById(@QueryParam("itemID") Long itemID){
+        return Response.ok(os.getItemById(itemID)).build();
+    }
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStructure")
     public Response getStructure(@QueryParam("itemID") Long id){
         return Response.ok(os.getStructure(os.getItemById(id))).build();
     }
-   
+    /*@GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getItemById")
+    public Response getClientById(@QueryParam("clientID") Long clientID){
+        return Response.ok(sr.getClientById(clientID)).build();
+    }*/
 
 //    @PUT
 //    @Path("/createStructure")

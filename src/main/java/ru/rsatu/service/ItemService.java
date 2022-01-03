@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import ru.rsatu.pojo.Clients;
 import ru.rsatu.pojo.Items;
 import ru.rsatu.pojo.ItemsDetails;
 
@@ -31,14 +32,12 @@ public class ItemService {
         return listItems;
     }
     public List<Items> getItems() {
-        Query query = em.createQuery(" select c from Items c ");
-        List<Items> listItems = query.getResultList();
-        return listItems;
+        return em.createQuery(" select c from Items c ", Items.class).getResultList();
     }
 
     public int countItems() {
-        Number ordersQTY = (Number) em.createQuery(" select count(Items) from Items ").getResultList().get(0);
-        return ordersQTY.intValue();
+        Number QTY = (Number) em.createQuery(" select count(id) from Items ").getResultList().get(0);
+        return QTY.intValue();
     }
 
     //вставка данных
