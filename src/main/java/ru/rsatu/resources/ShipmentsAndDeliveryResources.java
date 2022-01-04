@@ -108,7 +108,7 @@ public class ShipmentsAndDeliveryResources {
         JsonObject json = new JsonObject();
         json.put("page", page);
         json.put("per_page", 10);
-        int c = sads.countShipments();
+        int c = sads.countRequests();
         json.put("total", c);
         json.put("total_pages", (int)Math.ceil(c / 4.0));
         json.put("data", sads.getRequests(page));

@@ -107,7 +107,7 @@ public class ShipmentsAndDeliveryService {
         return listRequests;
     }
     
-    public int countRequest() {
+    public int countRequests() {
         Number requestsQTY = (Number) em.createQuery(" select count(id) from Requests ").getResultList().get(0);
         return requestsQTY.intValue() ;
     }
