@@ -119,20 +119,30 @@ public class ItemService {
             Items item = em.find(Items.class, itemDetail.getItemID());
             JsonObject jo = new JsonObject();
             jo.put("id", item.id);
-            jo.put("name", item.getName());
+            jo.put("text"," ID: "+item.id+" "+item.getName()+ " QTY: "+itemDetail.getQty());
+            jo.put("state",  JsonArrayState());
             jo.put("qty", itemDetail.getQty());
-            jo.put("child", rekursStructure(item));
+            jo.put("nodes", rekursStructure(item));
             ja.add(jo);
         }
         return ja;
     }
 
+    private JsonObject JsonArrayState(){
+        JsonObject jo = new JsonObject();
+        jo.put("checked", false);
+        jo.put("selected", false);
+        jo.put("expanded", false);
+        return jo;
+    }
+
     @Transactional
-    public JsonObject getStructure (Items parentItem){
+    public JsonObject getStructure (Items parentItem,Integer qty){
         JsonObject json = new JsonObject();
         json.put("id", parentItem.id);
-        json.put("name", parentItem.getName());
-        json.put("child", rekursStructure(parentItem));
+        json.put("text"," ID: "+parentItem.id+" "+ parentItem.getName()+" QTY: "+ qty);
+        json.put("state",  JsonArrayState());
+        json.put("nodes", rekursStructure(parentItem));
         return json;
     }
     

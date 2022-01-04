@@ -97,7 +97,7 @@ public class OrderResources {
     	//JsonObject itemsStructures = new JsonObject();    	    	
     	for (OrdersDetails detail : order.orderDetails) {
     		System.out.println("Смотрим струкуру итема: \n"+is.getItemById(detail.getItemID()));
-    		itemsStructures.add(is.getStructure (is.getItemById(detail.getItemID())));
+    		itemsStructures.add(is.getStructure (is.getItemById(detail.getItemID()),detail.getQty()));
     		
     	}
     	json.put("itemsStructures", itemsStructures);
