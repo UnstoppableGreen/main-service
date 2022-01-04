@@ -80,7 +80,7 @@ public class ItemResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStructure")
     public Response getStructure(@QueryParam("itemID") Long id){
-        return Response.ok(os.getStructure(os.getItemById(id))).build();
+        return Response.ok(os.getStructure(os.getItemById(id),1)).build();
     }
     /*@GET
     @Produces(MediaType.APPLICATION_JSON)
