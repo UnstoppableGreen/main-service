@@ -155,7 +155,7 @@ public class OrderResources {
     }
 
     
-    @PUT
+    @POST
     @Path("/updateOrder")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
