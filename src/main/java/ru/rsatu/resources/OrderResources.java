@@ -52,12 +52,12 @@ public class OrderResources {
         return Response.ok(json).build();
     }
 
-  /*  @GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getOrders")
+    @Path("/getAllOrders")
     public Response getOrders(){
         return Response.ok(os.getOrders()).build();
-    }*/
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -154,6 +154,9 @@ public class ShipmentsAndDeliveryService {
         List<Carriers> listCarriers = query.getResultList();
         return listCarriers;
     }
+    public List<Carriers> getAllCarriers() {
+       return em.createQuery(" select s from Carriers s ", Carriers.class).getResultList();
+    }
     public int countCarriers() {
         Number carQTY = (Number) em.createQuery(" select count(id) from Carriers ").getResultList().get(0);
         return carQTY.intValue() ;

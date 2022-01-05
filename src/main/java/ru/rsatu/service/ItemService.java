@@ -2,6 +2,7 @@ package ru.rsatu.service;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import io.vertx.core.json.JsonObject;
 import ru.rsatu.pojo.Clients;
 import ru.rsatu.pojo.Items;
 import ru.rsatu.pojo.ItemsDetails;
+import ru.rsatu.pojo.Orders;
+import ru.rsatu.pojo.OrdersDetails;
 
 @ApplicationScoped
 public class ItemService {
@@ -60,6 +63,21 @@ public class ItemService {
         em.flush();
         em.clear();
         return details;
+    }
+    //обновление данных
+    @Transactional
+    public Items updateItem(Items item) {
+    	Date dateNow = new Date();
+        em.merge(item);
+        em.flush();
+        return item;
+    }
+    //обновление данных
+    @Transactional
+    public ItemsDetails updateDetail(ItemsDetails detail) {
+        em.merge(detail);
+        em.flush();
+        return detail;
     }
     public Map<Items, Integer> getAtomicsFromItem(Items parentItem,int savedQTY) {
         atomicItems.clear();

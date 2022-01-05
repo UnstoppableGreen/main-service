@@ -80,7 +80,12 @@ public class ShipmentsAndDeliveryResources {
         json.put("data", sads.getShipments(page));
         return Response.ok(json).build();
     }
-    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getShipmentById")
+    public Response getShipmentById(@QueryParam("shipmentID") Long shimpentID){
+        return Response.ok(sads.getShipmentById(shimpentID)).build();
+    }
     
     
     @PUT
@@ -90,6 +95,13 @@ public class ShipmentsAndDeliveryResources {
     public void newRequest(Requests request) {
 	    System.out.println("Попытка добавить запрос к поставщику: \n"+request.toString());   	    	  
 	    sads.insertRequest(request);
+    }
+    @POST
+    @Path("/createRequests")
+    @Transactional
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createRequests(Requests request) {   	
+	    sads.createRequests(os.getOrderById(request.getOrderID()));
     }
     
     @PUT
@@ -134,6 +146,12 @@ public class ShipmentsAndDeliveryResources {
     	
     	return Response.ok(json).build();
     }
+    @GET
+    @Path("/getRequestById")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRequestById(@QueryParam("requestID") Long requestID) {   	
+    	return Response.ok(sads.getRequestById(requestID)).build();
+    }
     //-----------------------------------------------------------------------------------------------------------
     // CARRIERS
     //-----------------------------------------------------------------------------------------------------------
@@ -150,6 +168,12 @@ public class ShipmentsAndDeliveryResources {
         json.put("total_pages", (int)Math.ceil(c / 10.0));
         json.put("data", sads.getCarriers(page));
         return Response.ok(json).build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getAllCarriers")
+    public Response getAllCarriers(){
+        return Response.ok(sads.getAllCarriers()).build();
     }
 
     @GET
