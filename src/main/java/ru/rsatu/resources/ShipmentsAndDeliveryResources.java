@@ -86,7 +86,13 @@ public class ShipmentsAndDeliveryResources {
     public Response getShipmentById(@QueryParam("shipmentID") Long shimpentID){
         return Response.ok(sads.getShipmentById(shimpentID)).build();
     }
-    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/deleteShipment")
+    public Response deleteShipment(@QueryParam("shipmentID") Long id){
+        sads.deleteShipment(sads.getShipmentById(id));
+        return Response.ok().build();
+    }
     
     @PUT
     @Path("/newRequest")
@@ -101,7 +107,7 @@ public class ShipmentsAndDeliveryResources {
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public void createRequests(Requests request) {   	
-	    sads.createRequests(os.getOrderById(request.getOrderID()));
+	    sads.createRequests(request);
     }
     
     @PUT
@@ -151,6 +157,13 @@ public class ShipmentsAndDeliveryResources {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRequestById(@QueryParam("requestID") Long requestID) {   	
     	return Response.ok(sads.getRequestById(requestID)).build();
+    }
+    @POST
+    @Path("/deleteRequest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteRequest(@QueryParam("requestID") Long requestID) {     	
+    	sads.deleteRequest(requestID);
+    	return Response.ok().build();
     }
     //-----------------------------------------------------------------------------------------------------------
     // CARRIERS
@@ -206,5 +219,6 @@ public class ShipmentsAndDeliveryResources {
         sads.deleteCarriers(sads.getCarriersById(id));
         return Response.ok().build();
     }
+    
     
 }

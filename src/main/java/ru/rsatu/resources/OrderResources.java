@@ -109,14 +109,14 @@ public class OrderResources {
     @Path("/newOrder")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
-    public void newOrder(Orders order, @QueryParam("createRequest") Boolean createRequests) {
+    public void newOrder(Orders order) {
     	System.out.println("Попытка добавить заказ: \n"+order.toString());
     	    	 
     	for (OrdersDetails detail : order.orderDetails) {                    
             System.out.println("Внутри цикла: \n"+detail.toString());
             detail.order = order; 
     	} 
-    os.insertOrder(order,createRequests);
+    os.insertOrder(order);
     }
    
     @PUT
@@ -158,7 +158,7 @@ public class OrderResources {
     @POST
     @Path("/updateOrder")
     @Transactional
-    @Consumes(MediaType.APPLICATION_JSON)
+    //@Consumes(MediaType.APPLICATION_JSON)
     public void updateOrder(Orders order) { 
     	System.out.println("Попытка обновить заказ: \n"+order.toString());
     	for (OrdersDetails detail : order.orderDetails) {

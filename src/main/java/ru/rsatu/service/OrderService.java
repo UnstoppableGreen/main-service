@@ -35,13 +35,13 @@ public class OrderService {
 
     //вставка данных
     @Transactional
-    public Orders insertOrder(Orders order, Boolean createRequests) {   	
+    public Orders insertOrder(Orders order) {  
+    	Date dateNow = new Date();
+    	order.setLastUpdateOn(dateNow);
+    	order.setCreationDate(dateNow);
     	em.merge(order);
         em.flush();
         em.clear();
-        if (createRequests) {
-        	sads.createRequests(order);
-        }
         return order;
     }
     
