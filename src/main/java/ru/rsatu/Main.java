@@ -2,6 +2,7 @@ package ru.rsatu;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.annotations.QuarkusMain;
+import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.runtime.QuarkusApplication;
 
 @QuarkusMain
