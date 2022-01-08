@@ -70,14 +70,11 @@
     <dependency>  
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-hibernate-search-orm-elasticsearch</artifactId>
-<<<<<<< Updated upstream
 	</dependency>   
 	<dependency>
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-hibernate-orm-panache</artifactId>
     </dependency>
-=======
-	</dependency>
 	<dependency>
 	    <groupId>io.quarkus</groupId>
 	    <artifactId>quarkus-oidc</artifactId>
@@ -86,7 +83,6 @@
 	    <groupId>io.quarkus</groupId>
 	    <artifactId>quarkus-keycloak-authorization</artifactId>
 	</dependency>
->>>>>>> Stashed changes
   </dependencies>
   <build>
     <plugins>

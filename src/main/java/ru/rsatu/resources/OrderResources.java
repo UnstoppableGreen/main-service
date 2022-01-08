@@ -26,10 +26,9 @@ import ru.rsatu.service.ClientService;
 import ru.rsatu.service.ItemService;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.service.StatusService;
-<<<<<<< Updated upstream
-=======
+
 @Authenticated
->>>>>>> Stashed changes
+
 @Path("/orders")
 public class OrderResources {
     @Inject
