@@ -1,5 +1,6 @@
 package ru.rsatu.resources;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
+import io.quarkus.security.Authenticated;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import ru.rsatu.pojo.Items;
@@ -24,6 +26,10 @@ import ru.rsatu.service.ClientService;
 import ru.rsatu.service.ItemService;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.service.StatusService;
+<<<<<<< Updated upstream
+=======
+@Authenticated
+>>>>>>> Stashed changes
 @Path("/orders")
 public class OrderResources {
     @Inject
@@ -40,7 +46,8 @@ public class OrderResources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getOrders")
+    @Path("/getOrders")  
+    @RolesAllowed({"manager"})
     public Response getOrders(@QueryParam("page") int page){
         JsonObject json = new JsonObject();
         json.put("page", page);
@@ -55,6 +62,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllOrders")
+    @RolesAllowed({"manager","razrab","chiefDepartment","manage-account"})
     public Response getOrders(){
         return Response.ok(os.getOrders()).build();
     }
@@ -62,6 +70,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderById")
+    @RolesAllowed({"123"})
     public Response getOrderById(@QueryParam("orderID") Long orderID){
         return Response.ok(os.getOrderById(orderID)).build();
     }
