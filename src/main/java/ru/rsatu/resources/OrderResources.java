@@ -19,7 +19,6 @@ import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import io.quarkus.security.Authenticated;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import ru.rsatu.pojo.Items;
 import ru.rsatu.pojo.Orders;
 import ru.rsatu.pojo.OrdersDetails;
 import ru.rsatu.service.ClientService;
@@ -42,11 +41,11 @@ public class OrderResources {
     
     @Inject
     ItemService is;
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrders")  
-    @RolesAllowed({"manager"})
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     public Response getOrders(@QueryParam("page") int page){
         JsonObject json = new JsonObject();
         json.put("page", page);
@@ -61,7 +60,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllOrders")
-    @RolesAllowed({"manager","razrab","chiefDepartment","manage-account"})
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     public Response getOrders(){
         return Response.ok(os.getOrders()).build();
     }
@@ -69,11 +68,12 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderById")
-    @RolesAllowed({"123"})
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     public Response getOrderById(@QueryParam("orderID") Long orderID){
         return Response.ok(os.getOrderById(orderID)).build();
     }
-
+    
+    @RolesAllowed({"departmentAdmin","chief","manager"})
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteOrder")
@@ -81,7 +81,7 @@ public class OrderResources {
         os.deleteOrder(orderID);
         return Response.ok().build();
     }
-     
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"}) 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderInfo")
@@ -112,7 +112,7 @@ public class OrderResources {
         return Response.ok(json).build();
     }
     
-    
+    @RolesAllowed({"departmentAdmin","chief","manager"})
     @PUT
     @Path("/newOrder")
     @Transactional
@@ -126,7 +126,8 @@ public class OrderResources {
     	} 
     os.insertOrder(order);
     }
-   
+    
+    @RolesAllowed({"departmentAdmin","chief","manager"})
     @PUT
     @Path("/addDetail/{orderID}")
     @Transactional
@@ -148,7 +149,8 @@ public class OrderResources {
         order.persist(); //????
         
     }
-
+    
+    @RolesAllowed({"departmentAdmin","chief","manager"})
     @DELETE
     @Path("/deleteDetail")
     @Transactional
@@ -162,7 +164,7 @@ public class OrderResources {
         }
     }
 
-    
+    @RolesAllowed({"departmentAdmin","chief","manager"})
     @POST
     @Path("/updateOrder")
     @Transactional

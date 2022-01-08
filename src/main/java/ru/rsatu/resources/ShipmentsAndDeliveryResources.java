@@ -1,25 +1,29 @@
 package ru.rsatu.resources;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
+import io.quarkus.security.Authenticated;
 import io.vertx.core.json.JsonObject;
+import ru.rsatu.pojo.Carriers;
 import ru.rsatu.pojo.Requests;
 import ru.rsatu.pojo.Shipments;
-import ru.rsatu.pojo.Carriers;
-import ru.rsatu.pojo.Suppliers;
 import ru.rsatu.service.ItemService;
 import ru.rsatu.service.OrderService;
 import ru.rsatu.service.ShipmentsAndDeliveryService;
-import ru.rsatu.service.SuppliersService;
 
-import java.util.List;
+@Authenticated
 
 @Path("/ShipmentsAndDeliveries")
 public class ShipmentsAndDeliveryResources {
@@ -30,7 +34,7 @@ public class ShipmentsAndDeliveryResources {
     @Inject
     OrderService os;
     
-    
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @PUT
     @Path("/newShipment")
     @Transactional
@@ -39,7 +43,7 @@ public class ShipmentsAndDeliveryResources {
 	    System.out.println("Попытка добавить отгрузку: \n"+shipment.toString());   	    	  
 	    sads.insertShipment(shipment);
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @PUT
     @Path("/updateShipment")
     @Transactional
@@ -48,7 +52,7 @@ public class ShipmentsAndDeliveryResources {
     	System.out.println("Попытка обновить отгрузку: \n"+shipment.toString());
     	sads.updateShipment(shipment);
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getShipmentDetails")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -66,7 +70,7 @@ public class ShipmentsAndDeliveryResources {
     	json.put("orderDetails", os.getOrderDetails(sads.getShipmentById(shipmentID).getOrderID()));
     	return Response.ok(json).build();
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getShipments")
     @Produces(MediaType.APPLICATION_JSON)    
@@ -80,12 +84,14 @@ public class ShipmentsAndDeliveryResources {
         json.put("data", sads.getShipments(page));
         return Response.ok(json).build();
     }
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getShipmentById")
     public Response getShipmentById(@QueryParam("shipmentID") Long shimpentID){
         return Response.ok(sads.getShipmentById(shimpentID)).build();
     }
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteShipment")
@@ -93,7 +99,7 @@ public class ShipmentsAndDeliveryResources {
         sads.deleteShipment(sads.getShipmentById(id));
         return Response.ok().build();
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @PUT
     @Path("/newRequest")
     @Transactional
@@ -102,6 +108,7 @@ public class ShipmentsAndDeliveryResources {
 	    System.out.println("Попытка добавить запрос к поставщику: \n"+request.toString());   	    	  
 	    sads.insertRequest(request);
     }
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @POST
     @Path("/createRequests")
     @Transactional
@@ -109,7 +116,7 @@ public class ShipmentsAndDeliveryResources {
     public void createRequests(Requests request) {   	
 	    sads.createRequests(request);
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @PUT
     @Path("/updateRequest")
     @Transactional
@@ -118,7 +125,7 @@ public class ShipmentsAndDeliveryResources {
     	System.out.println("Попытка обновить отгрузку: \n"+request.toString());
     	sads.updateRequest(request);
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getRequests")
     @Produces(MediaType.APPLICATION_JSON)    
@@ -133,6 +140,7 @@ public class ShipmentsAndDeliveryResources {
         return Response.ok(json).build();
     }
     
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getRequestDetails")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -152,12 +160,14 @@ public class ShipmentsAndDeliveryResources {
     	
     	return Response.ok(json).build();
     }
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getRequestById")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRequestById(@QueryParam("requestID") Long requestID) {   	
     	return Response.ok(sads.getRequestById(requestID)).build();
     }
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @POST
     @Path("/deleteRequest")
     @Produces(MediaType.APPLICATION_JSON)
@@ -168,7 +178,7 @@ public class ShipmentsAndDeliveryResources {
     //-----------------------------------------------------------------------------------------------------------
     // CARRIERS
     //-----------------------------------------------------------------------------------------------------------
-
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getCarriers")
@@ -182,20 +192,21 @@ public class ShipmentsAndDeliveryResources {
         json.put("data", sads.getCarriers(page));
         return Response.ok(json).build();
     }
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllCarriers")
     public Response getAllCarriers(){
         return Response.ok(sads.getAllCarriers()).build();
     }
-
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getCarrierById")
     public Response getCarriersById(@QueryParam("carrierID") Long id){
         return Response.ok(sads.getCarriersById(id)).build();
     }
-
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -203,7 +214,7 @@ public class ShipmentsAndDeliveryResources {
     public Response insertSupplier(Carriers car){
         return Response.ok(sads.insertCarriers(car)).build();
     }
-
+    @RolesAllowed({"departmentAdmin","chief"})
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -211,7 +222,7 @@ public class ShipmentsAndDeliveryResources {
     public Response updateSupplier(Carriers carriers){
         return Response.ok(sads.updateCarriers(carriers)).build();
     }
-
+    @RolesAllowed({"departmentAdmin","chief","logist"})
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteCarrier")

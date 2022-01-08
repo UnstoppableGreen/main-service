@@ -1,24 +1,29 @@
 package ru.rsatu.resources;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
+import java.util.Map;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
+
+import io.quarkus.security.Authenticated;
+import io.vertx.core.json.JsonObject;
 import ru.rsatu.pojo.Items;
 import ru.rsatu.pojo.ItemsDetails;
-import ru.rsatu.pojo.Orders;
-import ru.rsatu.pojo.OrdersDetails;
 import ru.rsatu.service.ItemService;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+@Authenticated
 
 @Path("/items")
 public class ItemResources {
@@ -26,6 +31,7 @@ public class ItemResources {
     @Inject
     ItemService os;
     
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getItems")
@@ -39,14 +45,14 @@ public class ItemResources {
         json.put("data", os.getItems(page));
         return Response.ok(json).build();
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllItems")
     public Response getItems(){
         return Response.ok(os.getItems()).build();
     }
-    
+    @RolesAllowed({"departmentAdmin","chief"})
     @PUT
     @Path("/newItem")
     @Transactional
@@ -59,7 +65,7 @@ public class ItemResources {
     	} 
     os.insertItem(item);
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Path("/getAtomics")
     @Transactional
@@ -71,19 +77,21 @@ public class ItemResources {
         return os.getAtomicsFromItem(os.getItemById(id),1);
     	
     }
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getItemById")
     public Response getItemById(@QueryParam("itemID") Long itemID){
         return Response.ok(os.getItemById(itemID)).build();
     }
-    
+    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStructure")
     public Response getStructure(@QueryParam("itemID") Long id){
         return Response.ok(os.getStructure(os.getItemById(id), 1)).build();
     }
+    @RolesAllowed({"departmentAdmin","chief"})
     @POST
     @Path("/updateItem")
     @Transactional
@@ -101,7 +109,7 @@ public class ItemResources {
     	os.updateItem(item);
     }
     
-    
+    @RolesAllowed({"departmentAdmin","chief"})
     @PUT
     @Path("/addDetail/{itemID}")
     @Transactional
