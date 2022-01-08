@@ -18,7 +18,7 @@ public class SuppliersResources {
     @Inject
     SuppliersService ss;
     
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getSuppliers")
@@ -32,21 +32,21 @@ public class SuppliersResources {
         json.put("data", ss.getSuppliers(page));
         return Response.ok(json).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllSuppliers")
     public Response getAllSuppliers(){
         return Response.ok(ss.getAllSuppliers()).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getSupplierById")
     public Response getSupplierById(@QueryParam("supplierID") Long id){
         return Response.ok(ss.getSupplierById(id)).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist"})
+    @RolesAllowed({"editSuppliers"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ public class SuppliersResources {
     public Response insertSupplier(Suppliers s){
         return Response.ok(ss.insertSupplier(s)).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist"})
+    @RolesAllowed({"editSuppliers"})
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -62,7 +62,7 @@ public class SuppliersResources {
     public Response updateSupplier(Suppliers s){
         return Response.ok(ss.updateSupplier(s)).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist"})
+    @RolesAllowed({"editSuppliers"})
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteSupplier")

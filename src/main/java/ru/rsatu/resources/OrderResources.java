@@ -45,7 +45,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrders")  
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     public Response getOrders(@QueryParam("page") int page){
         JsonObject json = new JsonObject();
         json.put("page", page);
@@ -60,7 +60,7 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllOrders")
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     public Response getOrders(){
         return Response.ok(os.getOrders()).build();
     }
@@ -68,12 +68,12 @@ public class OrderResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderById")
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     public Response getOrderById(@QueryParam("orderID") Long orderID){
         return Response.ok(os.getOrderById(orderID)).build();
     }
     
-    @RolesAllowed({"departmentAdmin","chief","manager"})
+    @RolesAllowed({"editOrders"})
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/deleteOrder")
@@ -81,7 +81,7 @@ public class OrderResources {
         os.deleteOrder(orderID);
         return Response.ok().build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"}) 
+    @RolesAllowed({"watchAll"}) 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getOrderInfo")
@@ -112,7 +112,7 @@ public class OrderResources {
         return Response.ok(json).build();
     }
     
-    @RolesAllowed({"departmentAdmin","chief","manager"})
+    @RolesAllowed({"editOrders"})
     @PUT
     @Path("/newOrder")
     @Transactional
@@ -127,7 +127,7 @@ public class OrderResources {
     os.insertOrder(order);
     }
     
-    @RolesAllowed({"departmentAdmin","chief","manager"})
+    @RolesAllowed({"editOrders"})
     @PUT
     @Path("/addDetail/{orderID}")
     @Transactional
@@ -150,7 +150,7 @@ public class OrderResources {
         
     }
     
-    @RolesAllowed({"departmentAdmin","chief","manager"})
+    @RolesAllowed({"editOrders"})
     @DELETE
     @Path("/deleteDetail")
     @Transactional
@@ -164,7 +164,7 @@ public class OrderResources {
         }
     }
 
-    @RolesAllowed({"departmentAdmin","chief","manager"})
+    @RolesAllowed({"editOrders"})
     @POST
     @Path("/updateOrder")
     @Transactional

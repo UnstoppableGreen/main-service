@@ -17,21 +17,21 @@ import io.quarkus.security.Authenticated;
 public class StatusResources {
     @Inject
     StatusService sr;
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStatuses")
     public Response getStatuses(){
         return Response.ok(sr.getStatuses()).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStatusById")
     public Response getStatusById(@QueryParam("id") Long id){
         return Response.ok(sr.getStatusById(id)).build();
     }
-    @RolesAllowed({"departmentAdmin"})
+    @RolesAllowed({"editStatuses"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +39,7 @@ public class StatusResources {
     public Response insertStatus(Status status){
         return Response.ok(sr.insertStatus(status)).build();
     }
-    @RolesAllowed({"departmentAdmin"})
+    @RolesAllowed({"editStatuses"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,7 +47,7 @@ public class StatusResources {
     public Response updateStatus(Status status){
         return Response.ok(sr.updateStatus(status)).build();
     }
-    @RolesAllowed({"departmentAdmin"})
+    @RolesAllowed({"editStatuses"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

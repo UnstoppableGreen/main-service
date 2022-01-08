@@ -31,7 +31,7 @@ public class ItemResources {
     @Inject
     ItemService os;
     
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getItems")
@@ -45,14 +45,14 @@ public class ItemResources {
         json.put("data", os.getItems(page));
         return Response.ok(json).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllItems")
     public Response getItems(){
         return Response.ok(os.getItems()).build();
     }
-    @RolesAllowed({"departmentAdmin","chief"})
+    @RolesAllowed({"editItem"})
     @PUT
     @Path("/newItem")
     @Transactional
@@ -65,7 +65,7 @@ public class ItemResources {
     	} 
     os.insertItem(item);
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Path("/getAtomics")
     @Transactional
@@ -77,21 +77,21 @@ public class ItemResources {
         return os.getAtomicsFromItem(os.getItemById(id),1);
     	
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getItemById")
     public Response getItemById(@QueryParam("itemID") Long itemID){
         return Response.ok(os.getItemById(itemID)).build();
     }
-    @RolesAllowed({"departmentAdmin","chief","logist","manager"})
+    @RolesAllowed({"watchAll"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getStructure")
     public Response getStructure(@QueryParam("itemID") Long id){
         return Response.ok(os.getStructure(os.getItemById(id), 1)).build();
     }
-    @RolesAllowed({"departmentAdmin","chief"})
+    @RolesAllowed({"editItems"})
     @POST
     @Path("/updateItem")
     @Transactional
@@ -109,7 +109,7 @@ public class ItemResources {
     	os.updateItem(item);
     }
     
-    @RolesAllowed({"departmentAdmin","chief"})
+    @RolesAllowed({"editItems"})
     @PUT
     @Path("/addDetail/{itemID}")
     @Transactional

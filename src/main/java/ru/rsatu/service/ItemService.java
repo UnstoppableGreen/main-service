@@ -29,6 +29,7 @@ public class ItemService {
 
     public List<Items> getItems(int page) {
         Query query = em.createQuery(" select c from Items c ");
+    	// query = em.createQuery(" select i, s from Items i left join Suppliers s on i.defaultSupplierID = s.id ");
         query.setFirstResult((page - 1) * 10);
         query.setMaxResults(10);
         List<Items> listItems = query.getResultList();
