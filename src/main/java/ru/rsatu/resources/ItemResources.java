@@ -102,7 +102,7 @@ public class ItemResources {
             System.out.println("Внутри цикла: \n"+detail.toString());
             detail.item = item;
             if (detail.id==0) {            	
-            	addDetail(detail, item.id);
+            	//addDetail(detail, item.id);
             } else {
         os.updateDetail(detail);  }               
     	} 
