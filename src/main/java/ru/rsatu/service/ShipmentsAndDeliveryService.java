@@ -82,11 +82,13 @@ public class ShipmentsAndDeliveryService {
     
     @Transactional
     public void createRequests(Requests request) {
+    	is.atomicItems.clear();
     	Orders order = os.getOrderById(request.getOrderID());
     	Date dateNow = new Date();
     	Requests newrequest = new Requests();
     	List<Items> atomics = new ArrayList<>();
     	for (OrdersDetails detail : order.orderDetails) {
+    		is.atomicItems.clear();
     		atomics.addAll(is.getAllAtomicItems(is.getItemById(detail.getItemID()), detail.getQty()));
     	}
         Map<Items, Integer> countedAtomics = new HashMap<>();
@@ -105,13 +107,14 @@ public class ShipmentsAndDeliveryService {
     		newrequest.setActualSupplierID(is.getItemById(entry.getKey().id).getDefaultSupplierID());
     		newrequest.setCreationDate(dateNow);
     		newrequest.setEstimateDeliveryDate(request.getEstimateDeliveryDate());
-    		newrequest.setStatusID(request.getStatusID()); //НЕИЗВЕСТНЫЙ СТАТУС ДЛЯ "РЕКВЕСТ СОЗДАН"
+    		newrequest.setStatusID(request.getStatusID()); 
             em.merge(newrequest);
            
         }
         
     	em.flush();
-        em.clear();   	
+        em.clear(); 
+        
     }
 
     

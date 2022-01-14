@@ -25,7 +25,7 @@ import ru.rsatu.pojo.OrdersDetails;
 public class ItemService {
     @Inject
     EntityManager em;
-	private List<Items> atomicItems = new ArrayList<>();
+	public List<Items> atomicItems = new ArrayList<>();
 
     public List<Items> getItems(int page) {
         Query query = em.createQuery(" select c from Items c ");
