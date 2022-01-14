@@ -175,9 +175,10 @@ public class OrderResources {
             System.out.println("Внутри цикла: \n"+detail.toString());
             detail.order = order;
             if (detail.id==0) {            	
-            	addDetail(detail, order.id);
+            	//addDetail(detail, order.id);
             } else {
-        os.updateDetail(detail);  }               
+        os.updateDetail(detail);  
+        }               
     	} 
     	os.updateOrder(order);
     }
