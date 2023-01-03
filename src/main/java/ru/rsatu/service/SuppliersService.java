@@ -20,7 +20,7 @@ public class SuppliersService {
     public void createSupplier() {
         Suppliers sup = new Suppliers();
         sup.setName("Name");
-        sup.setContacts("Discription");
+        sup.setContacts("Description");
         em.persist(sup);
     }
 

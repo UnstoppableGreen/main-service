@@ -17,6 +17,10 @@ import io.vertx.core.json.JsonObject;
 import ru.rsatu.pojo.Clients;
 import ru.rsatu.service.ClientService;
 
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+
 @Authenticated
 
 @Path("/clients")
@@ -28,6 +32,7 @@ public class ClientResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getClientsPage")
+    @Timed(name = "getClientsPerPage", description = "getClientsPage() called", unit = MetricUnits.MILLISECONDS)
     public Response getClientsPage(@QueryParam("page") int page){
         JsonObject json = new JsonObject();
         json.put("page", page);
@@ -43,6 +48,7 @@ public class ClientResources {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getClients")
+    @Timed(name = "getClients", description = "getClients() called", unit = MetricUnits.MILLISECONDS)
     public Response getClients(){
         return Response.ok(sr.getClients()).build();
     }

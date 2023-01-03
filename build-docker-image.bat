@@ -1,0 +1,1 @@
+mvnw install -Dquarkus.container-image.build=true
